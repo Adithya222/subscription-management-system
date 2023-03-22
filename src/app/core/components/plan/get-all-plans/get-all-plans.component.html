@@ -1,0 +1,78 @@
+<script src="get-all-plans.component.ts"></script>
+<div class="card mb-0 px-3">
+  <div class="right-side-modal" id="right-side-modal" *ngIf="isShowModal | async"></div>
+  <div class="form-div" [@flyInRight] *ngIf="isShowModal | async">
+    <div class="close-btn">
+      <button class="btn btn-outline-secondary btn-sm d-flex ms-auto" (click)="closeModal()"><i class="pi pi-times"></i>
+      </button>
+    </div>
+
+    <app-create-plan [PlanId]="selectedPlanId"></app-create-plan>
+  </div>
+
+  <div class="col-md-12 pt-3">
+    <h5 class="c-title float-start">Plan List</h5>
+    <button type="button" class="btn btn-primary float-end" (click)="showModal()">
+      Create
+    </button>
+    <app-filter-data (filteredData)="setFilteredData($event)"></app-filter-data>
+  </div>
+
+  <div class="col-md-12 tbodyDiv" infinite-scroll
+       [infiniteScrollDistance]="2"
+       [infiniteScrollThrottle]="50"
+       (scrolled)="onScroll()"
+       [scrollWindow]="false"
+  >
+    <table class="table c-table" *ngIf="plans | async as plansData">
+      <thead class="sticky-top_">
+      <tr>
+        <td>ID</td>
+        <td>Name</td>
+        <td>Recurring Cycle</td>
+        <td>Duration</td>
+        <td>Trial Period</td>
+        <td>Status</td>
+        <td style="max-width: 35px; width: 35px"></td>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let plans of plansData; let i = index">
+        <td data-label="ID">{{plans.id}}</td>
+        <td data-label="Name">{{plans.planName}}</td>
+        <td data-label="Recurring Cycle">{{plans.recurringCycle}}</td>
+        <td data-label="Duration">{{plans.duration}}</td>
+        <td data-label="Trial Period">{{plans.trialPeriod}}</td>
+        <td data-label="Status">
+          <span class="badge bg-success" *ngIf="plans.isActive == true" >Activated</span>
+          <span class="badge bg-danger" *ngIf="plans.isActive == false" >Deactivated</span>
+        </td>
+        <td>
+          <div ngbDropdown class="d-inline-block action-dropdown">
+            <a id="dropdownBasic_{{i}}" ngbDropdownToggle><i class="bi bi-three-dots-vertical"></i></a>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic" class="action-list">
+              <button class="btn" (click)="editPlan(plans.id)">Edit</button>
+<!--              <button class="btn" (click)="deletePlan(plans)">Delete</button>-->
+
+              <span *ngIf="plans.isActive == true">
+              <button class="btn" (click)="deletePlan(plans)">Disable</button>
+
+
+              </span>
+              <span *ngIf="plans.isActive == false">
+              <button class="btn" (click)="deletePlan(plans)">Enable</button>
+              </span>
+            </div>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
+                   rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+  <p-toast></p-toast>
+
+
+</div>

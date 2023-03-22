@@ -1,0 +1,18 @@
+.breadcrumb {
+  background: transparent;
+  li {
+    a {
+      color: #333;
+      font-size: 13px;
+    }
+  }
+
+  @media (min-width: 991px) {
+    width: calc(100vw - 800px) !important;
+  }
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+  font-family: 'FontAwesome' !important;
+  content: ">";
+}

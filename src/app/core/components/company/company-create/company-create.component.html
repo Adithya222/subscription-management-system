@@ -1,0 +1,95 @@
+<div class="row">
+  <div class="col-md-12">
+    <!--        <ngx-spinner [fullScreen]="false" bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff">-->
+    <!--            <p style="font-size: 20px; color: white">Loading...</p>-->
+    <!--        </ngx-spinner>-->
+    <form [formGroup]="companyForm" >
+      <h6 class="mt-4">Create Company</h6>
+      <hr>
+      <div class="mb-3">
+        <label>Company Name</label>
+        <input type="text" class="form-control" formControlName="companyName"/>
+      </div>
+      <div class="mb-3">
+        <label>Company Registration Number</label>
+        <input type="text" class="form-control" formControlName="companyRegistrationNumber"/>
+      </div>
+      <div class="mb-3">
+        <label>Company Email</label>
+        <input type="email" class="form-control" formControlName="email"/>
+      </div>
+      <h6 class="mt-4"><i class="bi bi-pin-map"></i> Addresses</h6>
+
+      <ng-container formArrayName="companyAddressList">
+        <ng-container *ngFor="let emp of addresses.controls; let i = index" [formGroupName]="i">
+          <div class="row mb-3" *ngIf="addresses.controls[i].value.isActive">
+            <div class="col-md-6 mb-2">
+              <label>Address Line 1</label>
+              <input type="text" class="form-control" formControlName="addressLine1"/>
+            </div>
+            <div class="col-md-6 mb-2">
+              <label>Address Line 2</label>
+              <input type="text" class="form-control" formControlName="addressLine2"/>
+            </div>
+            <div class="col-md-6 mb-2">
+              <label>City</label>
+              <input type="text" class="form-control" formControlName="city"/>
+            </div>
+            <div class="col-md-6 mb-2">
+              <label>State</label>
+              <input type="text" class="form-control" formControlName="state"/>
+            </div>
+            <div class="col-md mb-2">
+              <label>Post Code</label>
+              <input type="text" class="form-control" formControlName="postcode"/>
+            </div>
+            <div class="col-md mb-2">
+              <label>Country</label>
+              <ng-select formControlName="country">
+                <ng-option [value]="item.name" *ngFor="let item of countries">{{item.name}}</ng-option>
+              </ng-select>
+            </div>
+            <div class="col-md align-self-center" [ngClass]="{'d-none': addresses.length <= 1, 'btn-remove-div': addresses.length > 1}">
+              <button *ngIf="addresses.length > 1" class="{{iconClass.removeIconClass}}" type="button" (click)="deleteAddress(i)"><i class="{{iconClass.removeIcon}}"></i></button>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+
+      <div class="col-md-12 mb-3">
+        <button type="button" class="btn btn-outline-primary btn-sm" (click)="addAddress()"><i class="{{iconClass.addIcon}}"></i> Add More Address</button>
+      </div>
+      <h6 class="mt-4"><i class="bi bi-phone"></i> Contact Details</h6>
+
+      <ng-container formArrayName="companyContactList">
+        <ng-container *ngFor="let emp of contacts.controls; let i = index" [formGroupName]="i">
+          <div class="row mb-3" *ngIf="contacts.controls[i].value.isActive">
+            <div class="col-md">
+              <label>Number</label>
+              <input type="text" class="form-control" formControlName="contactNumber"/>
+            </div>
+            <div class="col-md">
+              <label>Type</label>
+              <ng-select id="role" formControlName="contactType">
+                <ng-option [value]="item" *ngFor="let item of contactTypes">{{item}}</ng-option>
+              </ng-select>
+            </div>
+            <div class="col-md align-self-center" [ngClass]="{'d-none': contacts.length <= 1, 'btn-remove-div': contacts.length > 1}">
+              <button *ngIf="contacts.length > 1" class="{{iconClass.removeIconClass}}" type="button" (click)="deleteContact(i)"><i class="{{iconClass.removeIcon}}"></i></button>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+
+      <div class="col-md-12 mb-3">
+        <button type="button" class="{{iconClass.addIconClass}}" (click)="addContact()"><i class="{{iconClass.addIcon}}"></i> Add More Contact</button>
+      </div>
+
+
+      <div class="col-md-12 text-end">
+        <button class="btn btn-primary" (click)="saveCompany('close')" *ngIf="!company || !company.id">Submit</button>
+        <button class="btn btn-primary" (click)="updateBrand()" *ngIf="company && company.id">Update</button>
+      </div>
+    </form>
+  </div>
+</div>

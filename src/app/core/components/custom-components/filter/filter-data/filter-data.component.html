@@ -1,0 +1,38 @@
+<div>
+    <div>
+        <ng-template #popContent>
+            <div>
+                <div class="d-flex align-items-center justify-content-sm-center">
+                    <h6>Filter Results</h6>
+                </div>
+                <ng-select (change)="selectOption($event)">
+                    <ng-option [value]="option" *ngFor="let option of mainOptions | async">{{option.title}}</ng-option>
+                </ng-select>
+                <div *ngIf="selectedOption | async as field">
+                    <hr *ngIf="field['type']">
+                    <app-input *ngIf="field['type'] === 'input'"></app-input>
+                    <app-input *ngIf="field['type'] === 'number'"></app-input>
+                    <app-date-range *ngIf="field['type'] === 'dateRange'"></app-date-range>
+                    <app-date *ngIf="field['type'] === 'date'"></app-date>
+                    <app-time-range *ngIf="field['type'] === 'timeRange'"></app-time-range>
+                    <app-time *ngIf="field['type'] === 'time'"></app-time>
+                </div>
+
+                <hr>
+                <button type="button" class="btn btn-outline-primary btn-sm" (click)="onSubmit(p)">Filter</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm float-end" (click)="onReset(p)">Reset</button>
+            </div>
+
+        </ng-template>
+
+        <div class="d-flex align-items-end flex-column bd-highlight mb-3">
+            <div class="mb-auto p12 bd-highlight">
+                <button type="button" #p="ngbPopover" class="border-non" placement="left-top" [ngbPopover]="popContent" [autoClose]="'outside'">
+                    <i class="bi bi-filter filter-icon"></i>
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+</div>

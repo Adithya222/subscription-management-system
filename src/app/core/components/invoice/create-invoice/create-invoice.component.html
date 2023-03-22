@@ -1,0 +1,142 @@
+<div class="row">
+  <div class="col-md-12 mt-5">
+    <form [formGroup]="invoiceForm">
+      <h6>Invoice</h6>
+      <hr>
+      <div class="row">
+
+        <div class="col-md-3 mb-3">
+          <label>Recurring Cycle</label>
+          <ng-select formControlName="recurringCycle">
+            <ng-option [value]="item" *ngFor="let item of recurringCycle">{{item}}</ng-option>
+          </ng-select>
+        </div>
+
+
+
+        <div class="col-md-3 mb-3">
+          <label>Date</label>
+          <input class="form-control" name="datepicker" formControlName="date" ngbDatepicker
+                 #d="ngbDatepicker"
+                 (click)="d.toggle()">
+        </div>
+
+        <div class="col-md-3 mb-3">
+          <label>Recurring</label>
+          <ng-select formControlName="recurring">
+            <ng-option [value]="item" *ngFor="let item of recurring">{{item}}</ng-option>
+          </ng-select>
+        </div>
+      </div>
+
+
+      <ng-container>
+
+        <table class="table c-table mt-5">
+          <thead>
+          <tr>
+            <th width="300px">Plan Name</th>
+            <th width="200px">Amount</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td data-label="Product Name">{{planList?.planName}}
+            </td>
+            <td data-label="Total">{{planList?.price | number: '1.2-2'}}
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </ng-container>
+
+      <hr>
+
+      <div class="row justify-content-between">
+        <div class="col-md-7">
+          <label>Note</label>
+          <textarea class="form-control" formControlName="note" rows="3"></textarea>
+        </div>
+
+        <div class="col-md-4 float-end">
+          <table class="table c-table">
+            <tbody>
+            <tr>
+              <td>Sub Total</td>
+              <td>
+                <span class="float-end">{{planList?.price | number: '1.2-2'}}</span>
+              </td>
+            </tr>
+
+            <tr>
+              <td><b>Total</b></td>
+              <td>
+                <b><span class="float-end">{{planList?.price | number: '1.2-2'}}</span></b>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+
+      <hr>
+
+      <!--            <h6 class="mt-4"><i class="bi bi-wallet"></i> Payments / Refunds</h6>-->
+
+      <!--            <ng-container formArrayName="payments">-->
+      <!--                <div class="row mb-3">-->
+      <!--                    <div class="col-md-8">-->
+      <!--                        <table class="table c-table">-->
+      <!--                            <thead>-->
+      <!--                            <tr>-->
+      <!--                                <td>Payment / Return Type</td>-->
+      <!--                                <td>Reference</td>-->
+      <!--                                <td>Amount</td>-->
+      <!--                                <td style="width: 50px"></td>-->
+      <!--                            </tr>-->
+      <!--                            </thead>-->
+      <!--                            <tbody>-->
+      <!--                            <tr *ngFor="let payment of payments.controls; let i = index" [formGroupName]="i">-->
+      <!--                                <td>-->
+      <!--                                    <ng-select formControlName="paymentType">-->
+      <!--                                        <ng-option [value]="item" *ngFor="let item of paymentType">{{item}}</ng-option>-->
+      <!--                                    </ng-select>-->
+      <!--                                </td>-->
+      <!--                                <td>-->
+      <!--                                    <input type="text" class="form-control" formControlName="paymentReference"/>-->
+      <!--                                </td>-->
+      <!--                                <td>-->
+      <!--                                    <input type="number" class="form-control" formControlName="paymentAmount"/>-->
+      <!--                                </td>-->
+      <!--                                <td style="width: 50px">-->
+      <!--                                    <button *ngIf="payments.length > 1" class="{{iconClass.removeIconClass}} position-relative" type="button" (click)="deletePayments(i)"><i class="{{iconClass.removeIcon}}"></i></button>-->
+      <!--                                </td>-->
+      <!--                            </tr>-->
+      <!--                            <tr>-->
+      <!--                                <td>-->
+      <!--                                    <button type="button" class="{{iconClass.addIconClass}}" (click)="addPayment()"><i class="{{iconClass.addIcon}}"></i>Add</button>-->
+      <!--                                </td>-->
+      <!--                                <td></td>-->
+      <!--&lt;!&ndash;                                <td>&ndash;&gt;-->
+      <!--&lt;!&ndash;                                    Total <span class="float-end">{{14000 | number: '1.2-2'}}</span>&ndash;&gt;-->
+      <!--&lt;!&ndash;                                </td>&ndash;&gt;-->
+      <!--                                <td></td>-->
+      <!--                            </tr>-->
+      <!--                            </tbody>-->
+      <!--                        </table>-->
+      <!--                    </div>-->
+      <!--                </div>-->
+      <!--            </ng-container>-->
+
+
+      <div class="col-md-12 text-end mt-3">
+        <!--        <button class="btn btn-primary" (click)="saveShipOutInvoice('open')" *ngIf="shipOut && !shipOut.id" [disabled]="showFormLoading | async">Save & Add New</button>-->
+        <button class="btn btn-primary" (click)="saveInvoice()">Purchase</button>
+        <!--              <button class="btn btn-primary ms-1" (click)="updateShipOutInvoice()" *ngIf="shipOut && shipOut.id" [disabled]="showFormLoading | async">Update</button>-->
+      </div>
+
+
+    </form>
+  </div>
+</div>

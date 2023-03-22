@@ -1,0 +1,64 @@
+<div class="row">
+  <div class="col-md-12">
+    <form [formGroup]="productForm">
+      <h6 class="mt-4">Create Product</h6>
+      <hr>
+      <div class="row mb-3">
+        <div class="mb-3 col-md-6">
+          <label for="itemName" class="form-label">Product Name</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="itemName"
+            id="itemName" name="itemName"
+          />
+        </div>
+
+        <div class="mb-3 col-md-6">
+          <label for="itemCode" class="form-label">Product Code(SKU)</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="itemCode"
+            id="itemCode" name="itemCode"
+          />
+        </div>
+
+        <div class="mb-3 col-md-6">
+          <label for="brandId" class="form-label">Category</label>
+          <div class="input-group">
+            <ng-select class="ng-select-group" formControlName="brandId" id="brandId">
+              <ng-option [value]="item.id" *ngFor="let item of brands">{{item.brandName}}</ng-option>
+            </ng-select>
+            <div class="input-group-append">
+              <button class="btn btn-sm btn-outline-secondary" type="button" (click)="addNewItem('brand-create')">+
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-3 col-md-12">
+          <div class="mb-3">
+            <label>Description</label>
+            <textarea rows="4" class="form-control" formControlName="description"></textarea>
+          </div>
+
+        </div>
+      </div>
+
+
+      <div class="row mb-3">
+        <div class="col-md-12 text-end">
+          <button type="button" class="btn btn-warning ms-1" (click)="clear()">Clear</button>
+          <button type="button" class="btn btn-primary ms-1" (click)="saveProduct('close')"
+                  *ngIf="!product || !product.id">Save
+          </button>
+          <button class="btn btn-primary ms-1" (click)="updateProduct()" *ngIf="product && product.id"
+                  [disabled]="showFormLoading | async">Update
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+

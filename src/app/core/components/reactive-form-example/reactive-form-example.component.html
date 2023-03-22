@@ -1,0 +1,45 @@
+<div class="row">
+    <div class="col-md-12">
+        <form [formGroup]="brandForm">
+            <div class="mb-3">
+                <label>Name</label>
+                <input type="text" class="form-control" formControlName="name"/>
+            </div>
+            <div class="mb-3">
+                <label>Description</label>
+                <input type="text" class="form-control" formControlName="description"/>
+            </div>
+
+
+            <ng-container formArrayName="employees">
+                <div class="row mb-3" *ngFor="let emp of employees.controls; let i = index" [formGroupName]="i">
+                    <div class="col-md">
+                        <label>Name</label>
+                        <input type="text" class="form-control" formControlName="empName"/>
+                    </div>
+                    <div class="col-md">
+                        <label>Age</label>
+                        <input type="text" class="form-control" formControlName="age"/>
+                    </div>
+                    <div class="col-md">
+                        <label>Skill</label>
+                        <input type="text" class="form-control" formControlName="skill"/>
+                    </div>
+                    <div class="col-md align-self-end">
+                        <button class="{{removeIconClass}}" type="button" (click)="deleteEmployee(i)"><i class="{{removeIcon}}"></i></button>
+                    </div>
+                </div>
+            </ng-container>
+
+            <div class="col-md-12 mb-3">
+                <button type="button" class="{{addIconClass}}" (click)="addEmployee()"><i class="{{addIcon}}"></i> Add More Employee</button>
+            </div>
+
+            <div class="col-md-12 text-end">
+                <button class="btn btn-primary" (click)="saveBrand('open')" *ngIf="!brand || !brand.id">Submit</button>
+                <button class="btn btn-primary" (click)="updateBrand()" *ngIf="brand && brand.id">Update</button>
+            </div>
+
+        </form>
+    </div>
+</div>

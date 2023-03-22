@@ -1,0 +1,221 @@
+<script src="valid-product-list.component.ts"></script>
+
+<div class="right-side-modal" id="right-side-modal" *ngIf="isShowModal | async"></div>
+<div class="form-div" [@flyInRight] *ngIf="isShowModal | async">
+  <div class="close-btn mt-3">
+    <button class="btn btn-outline-secondary btn-sm d-flex ms-auto" (click)="closeModal()"><i class="pi pi-times"></i>
+    </button>
+  </div>
+
+  <app-create-invoice [planID]="selectedPlanId"></app-create-invoice>
+</div>
+
+
+<div class="container" *ngIf="invoiceList?.status == 'TRIAL'">
+  <div class="card">
+    <div class="card-header text-center warningFont">
+      Try us out for free!
+    </div>
+
+    <div class="card-body ">
+
+      <div class="row cardPadding mb-2 text-center">
+        <p>
+          We’re so confident that you’ll love our platform that we’re offering a free trial period for you to experience
+          it for yourself. During that trial period, you’ll have access to all of our <b>{{planList.planName}}</b>
+          features. You can cancel
+          the trial period at any time or can extend it by request.
+        </p>
+
+      </div>
+
+      <div class="row">
+        <div *ngFor="let items of planList?.productList" class="col-md-6 col-sm-6 col-lg-4 mt-2">
+          <div class="card-products">
+
+
+            <img
+              src="https://lh3.googleusercontent.com/ytP9VP86DItizVX2YNA-xTYzV09IS7rh4WexVp7eilIcfHmm74B7odbcwD5DTXmL0PF42i2wnRKSFPBHlmSjCblWHDCD2oD1oaM1CGFcSd48VBKJfsCi4bS170PKxGwji8CPmehwPw=w200-h247-no"
+              alt="Person" class="card__image">
+            <h3
+              class="card__name">{{items.productName}}</h3>
+            <p class="text-center descriptionClr cardPadding">{{items.productDescription}}</p>
+
+
+            <button class="btn-1 draw-border " style="margin-top: auto;">View Product</button>
+
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="container" *ngIf="invoiceList?.status == 'TRIAL_END'">
+
+
+  <div class="card">
+    <div class="card-header text-center warningFont">
+      Your Trial Period is Ended !
+    </div>
+
+    <div class="card-body text-center">
+
+      <div class="row cardPadding mb-2">
+        <p>
+          We hope you’ve enjoyed your trial period with our platform! As your trial period comes to an end, we want to
+          remind you that you have the option to continue your subscription and gain access to all of our
+          <b>{{planList.planName}}</b>
+          features.
+        </p>
+        <p>
+          Thank you for trying our platform! We hope to continue serving you and helping you achieve your goals.
+        </p>
+
+      </div>
+      <div class="row mb-3">
+        <div *ngFor="let items of planList?.productList" class="col-md-6 col-sm-6 col-lg-4 mt-2">
+          <div class="card-products">
+            <img
+              src="https://lh3.googleusercontent.com/ytP9VP86DItizVX2YNA-xTYzV09IS7rh4WexVp7eilIcfHmm74B7odbcwD5DTXmL0PF42i2wnRKSFPBHlmSjCblWHDCD2oD1oaM1CGFcSd48VBKJfsCi4bS170PKxGwji8CPmehwPw=w200-h247-no"
+              alt="Person" class="card__image">
+            <p class="card__name">{{items.productName}}</p>
+            <p class="descriptionClr text-center cardPadding">{{items.productDescription}}</p>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <button type="button" class="btn-1 draw-border-2" (click)="showModal()">Purchase Plan</button>
+    </div>
+  </div>
+
+</div>
+
+<div class="container" *ngIf="invoiceList?.status == 'PENDING'">
+
+
+  <div class="card">
+    <div class="card-header text-center warningFont">
+      Your Request is Pending !!!
+    </div>
+
+    <div class="card-body text-center">
+
+      <div class="row cardPadding mb-2">
+        <p>
+          Thank you for submitting your invoice. Our team is currently reviewing your request and will get back to you
+          as soon as possible. Please note that your subscription plan will not be activated until your invoice has been
+          approved.
+        </p>
+        <p>
+          If you have any questions or concerns, please do not hesitate to contact our customer support team. We are
+          always here to help and ensure that your experience with our company is as smooth as possible.
+        </p>
+        <p>
+          Thank you for your patience and understanding. We look forward to serving you soon!
+        </p>
+      </div>
+      <div class="row mb-3">
+        <div *ngFor="let items of planList?.productList" class="col-md-6 col-sm-6 col-lg-4 mt-2">
+          <div class="card-products">
+            <img
+              src="https://lh3.googleusercontent.com/ytP9VP86DItizVX2YNA-xTYzV09IS7rh4WexVp7eilIcfHmm74B7odbcwD5DTXmL0PF42i2wnRKSFPBHlmSjCblWHDCD2oD1oaM1CGFcSd48VBKJfsCi4bS170PKxGwji8CPmehwPw=w200-h247-no"
+              alt="Person" class="card__image">
+            <p class="card__name">{{items.productName}} - {{items.productCode}}</p>
+            <p class="descriptionClr text-center cardPadding">{{items.productDescription}}</p>
+          </div>
+        </div>
+      </div>
+      <!--      <button type="button" class="btn-1 draw-border-2" (click)="showModal()">Purchase Plan</button>-->
+    </div>
+  </div>
+
+</div>
+
+<div class="container" *ngIf="invoiceList?.status == 'REJECT'">
+
+
+  <div class="card">
+    <div class="card-header text-center warningFont">
+      Your Request is Rejected !
+    </div>
+
+    <div class="card-body text-center">
+
+      <div class="row cardPadding mb-2">
+        What Is a Sample? A sample refers to a smaller, manageable version of a larger group. It is a subset containing
+        the characteristics of a larger population. Samples are used in statistical testing when population sizes are
+        too large for the test to include all possible members or observations.
+      </div>
+      <div class="row mb-3">
+        <div *ngFor="let items of planList?.productList" class="col-md-6 col-sm-6 col-lg-4 mt-2">
+          <div class="card-products">
+            <img
+              src="https://lh3.googleusercontent.com/ytP9VP86DItizVX2YNA-xTYzV09IS7rh4WexVp7eilIcfHmm74B7odbcwD5DTXmL0PF42i2wnRKSFPBHlmSjCblWHDCD2oD1oaM1CGFcSd48VBKJfsCi4bS170PKxGwji8CPmehwPw=w200-h247-no"
+              alt="Person" class="card__image">
+            <p class="card__name">{{items.productName}}</p>
+            <p class="descriptionClr text-center cardPadding">{{items.productDescription}}</p>
+          </div>
+        </div>
+      </div>
+      <!--      <button type="button" class="btn-1 draw-border-2" (click)="showModal()">Purchase Plan</button>-->
+    </div>
+  </div>
+
+</div>
+
+<div class="container" *ngIf="invoiceList?.status == 'APPROVE'">
+
+
+  <div class="card">
+    <div class="card-header text-center warningFont">
+      Your Request is Approved !
+    </div>
+
+    <div class="card-body text-center">
+
+      <div class="row cardPadding mb-2">
+        <p>
+          Congratulations! Your invoice has been approved and your subscription plan has been activated. You now have
+          access to all of our premium features, including exclusive content, personalized recommendations, and a
+          community forum where you can connect with other members.
+        </p>
+
+        <p>
+          We value your business and appreciate your prompt payment. If you have any questions or concerns about your
+          subscription plan, please do not hesitate to contact our customer support team. We are always here to help and
+          ensure that your experience with our company is as smooth as possible.
+        </p>
+        <p>
+          Thank you for choosing us as your service provider. We look forward to continuing to serve you and helping you
+          achieve your goals.
+        </p>
+
+      </div>
+      <div class="row mb-3">
+        <div *ngFor="let items of planList?.productList" class="col-md-6 col-sm-6 col-lg-4 mt-2">
+          <div class="card-products">
+            <img
+              src="https://lh3.googleusercontent.com/ytP9VP86DItizVX2YNA-xTYzV09IS7rh4WexVp7eilIcfHmm74B7odbcwD5DTXmL0PF42i2wnRKSFPBHlmSjCblWHDCD2oD1oaM1CGFcSd48VBKJfsCi4bS170PKxGwji8CPmehwPw=w200-h247-no"
+              alt="Person" class="card__image">
+            <p class="card__name">{{items.productName}}</p>
+            <p class="descriptionClr text-center cardPadding">{{items.productDescription}}</p>
+
+            <button class="btn-1 draw-border " style="margin-top: auto;">View Product</button>
+
+          </div>
+        </div>
+      </div>
+      <!--      <button type="button" class="btn-1 draw-border-2" (click)="showModal()">Purchase Plan</button>-->
+    </div>
+  </div>
+
+</div>
+
+
+
+
+
+

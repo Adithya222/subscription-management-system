@@ -1,0 +1,82 @@
+<script src="invoice-list.component.html"></script>
+<div class="card mb-0 px-3">
+  <div class="right-side-modal" id="right-side-modal" *ngIf="isShowModal | async"></div>
+  <div class="form-div" [@flyInRight] *ngIf="isShowModal | async">
+    <div class="close-btn">
+      <button class="btn btn-outline-secondary btn-sm d-flex ms-auto" (click)="closeModal()"><i class="pi pi-times"></i>
+      </button>
+    </div>
+
+    <div class="scroll-div">
+      <app-view-invoice [invoiceId]="selectedInvoiceId" (outputData)="setUpdatedData($event)"></app-view-invoice>
+    </div>
+  </div>
+
+
+  <div class="col-md-12 pt-3">
+    <h5 class="c-title float-start">Invoice List</h5>
+<!--    <button type="button" class="btn btn-primary float-end" (click)="showModal()">-->
+<!--      Create-->
+<!--    </button>-->
+    <app-filter-data (filteredData)="setFilteredData($event)"></app-filter-data>
+  </div>
+
+  <div class="col-md-12 tbodyDiv" infinite-scroll
+       [infiniteScrollDistance]="2"
+       [infiniteScrollThrottle]="50"
+       (scrolled)="onScroll()"
+       [scrollWindow]="false"
+  >
+    <table class="table c-table">
+      <thead class="sticky-top_">
+      <tr>
+        <td style="width: 60px">ID</td>
+        <td>Invoice No</td>
+        <td>Date</td>
+        <td>Recurring</td>
+        <td>Recurring Cycle</td>
+        <td>Invoice Status</td>
+        <td style="max-width: 35px; width: 35px"></td>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let invoice of invoiceList; let i = index">
+        <td data-label="ID">{{invoice.id}}</td>
+        <td data-label="Name">{{invoice.invoiceNo}}</td>
+        <td data-label="Name">{{invoice.date}}</td>
+        <td data-label="Description">{{invoice.recurring}}</td>
+        <td data-label="Description">{{invoice.recurringCycle}}</td>
+        <td data-label="Status">
+          <span class="badge bg-warning" *ngIf="invoice.status == 'TRIAL'" >TRIAL</span>
+          <span class="badge bg-black" *ngIf="invoice.status == 'TRIAL_END'" >TRIAL ENDED</span>
+          <span class="badge bg-primary" *ngIf="invoice.status == 'PENDING'" >PENDING</span>
+          <span class="badge bg-success" *ngIf="invoice.status == 'APPROVE'" >APPROVED</span>
+          <span class="badge bg-danger" *ngIf="invoice.status == 'REJECT'" >REJECTED</span>
+        </td>
+        <td>
+          <div ngbDropdown class="d-inline-block action-dropdown">
+            <a id="dropdownBasic_{{i}}" ngbDropdownToggle><i class="bi bi-three-dots-vertical"></i></a>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic" class="action-list">
+<!--              <button class="btn" (click)="editBrand(brand.id)">Edit</button>-->
+              <button class="btn" (click)="viewInvoice(invoice.id)">View</button>
+
+<!--              <span *ngIf="brand.isActive == true">-->
+<!--              <button class="btn" (click)="deleteBrand(brand)">Disable</button>-->
+<!--              </span>-->
+<!--              <span *ngIf="brand.isActive == false">-->
+<!--              <button class="btn" (click)="deleteBrand(brand)">Enable</button>-->
+<!--              </span>-->
+            </div>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
+                   rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+  <p-toast></p-toast>
+
+
+</div>

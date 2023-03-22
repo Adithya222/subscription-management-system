@@ -1,0 +1,88 @@
+<div class="card mb-0 px-3">
+  <div class="right-side-modal" id="right-side-modal"  *ngIf="isShowModal | async"></div>
+
+  <div class="form-div" [@flyInRight] *ngIf="isShowModal | async">
+    <div class="close-btn">
+      <button class="btn btn-outline-secondary btn-sm d-flex ms-auto" (click)="closeModal()"><i class="pi pi-times"></i></button>
+    </div>
+    <div class="scroll-div">
+      <app-product-create *ngIf="selectedForm == 'productCreate'" [productId]="selectedProductId"></app-product-create>
+      <app-product-view *ngIf="selectedForm == 'viewProduct'" [productId]="selectedProductId"></app-product-view>
+    </div>
+  </div>
+
+  <ng-container *ngIf="isShowModal2 | async as modal2Data">
+    <div class="right-side-modal right-side-modal2" id="right-side-modal2"  *ngIf="modal2Data.status"></div>
+    <div class="form-div form-div2" [@flyInRight] *ngIf="modal2Data.status">
+    <div class="close-btn">
+      <button class="btn btn-outline-secondary btn-sm d-flex ms-auto" (click)="closeModal2()"><i class="pi pi-times"></i></button>
+    </div>
+    <div class="scroll-div">
+      <app-brand-create *ngIf="modal2Data.component == 'brand-create'"></app-brand-create>
+      <app-customer-create *ngIf="modal2Data.component == 'customer-create'"></app-customer-create>
+    </div>
+  </div>
+  </ng-container>
+
+  <div class="col-md-12 pt-3">
+    <h5 class="c-title float-start">Product List</h5>
+    <button type="button" class="btn btn-primary float-end" (click)="showModal()">
+      Create
+    </button>
+    <app-filter-data (filteredData)="setFilteredData($event)"></app-filter-data>
+  </div>
+
+
+  <div class="col-md-12 tbodyDiv" infinite-scroll
+       [infiniteScrollDistance]="2"
+       [infiniteScrollThrottle]="50"
+       (scrolled)="onScroll()"
+       [scrollWindow]="false"
+  >
+    <table class="table c-table" *ngIf="products | async as productsData">
+      <thead>
+      <tr>
+        <td style="width: 60px">ID</td>
+        <td>Product Code</td>
+        <td>Product Name</td>
+        <td>Category</td>
+        <td>Status</td>
+        <td style="max-width: 35px; width: 35px"></td>
+
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let product of productsData; let i = index">
+        <td data-label="ID">{{product.id}}</td>
+        <td data-label="Item Code">{{product.itemCode}}</td>
+        <td data-label="Item Name">{{product.itemName}}</td>
+        <td data-label="Category">{{product.brandName}}</td>
+        <td data-label="Status">
+          <span class="badge bg-success" *ngIf="product.isActive == true" >Activated</span>
+          <span class="badge bg-danger" *ngIf="product.isActive == false" >Deactivated</span>
+        </td>
+        <td>
+          <div ngbDropdown class="d-inline-block action-dropdown">
+            <a id="dropdownBasic_{{i}}" ngbDropdownToggle><i class="bi bi-three-dots-vertical"></i></a>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic" class="action-list">
+              <button class="btn" (click)="editProduct(product.id)">Edit</button>
+              <span *ngIf="product.isActive == true">
+              <button class="btn" (click)="deleteProduct(product)">Disable</button>
+
+              </span>
+              <span *ngIf="product.isActive == false">
+              <button class="btn" (click)="deleteProduct(product)">Enable</button>
+
+              </span>
+              <button class="btn" (click)="viewProduct(product.id)">View</button>
+            </div>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+  <p-toast></p-toast>
+</div>

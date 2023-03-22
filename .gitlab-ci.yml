@@ -1,0 +1,57 @@
+image: node:14-alpine
+
+stages:
+  - build
+  - dockerizing
+  - deploy
+
+cache:
+  paths:
+    - node_modules/
+
+build:
+  stage: build
+  
+  script:
+    - npm install
+    - npm run build --prod 
+  artifacts:
+    paths:
+      - dist/
+
+
+dockerizing: 
+  stage: dockerizing
+ 
+  image: docker:stable
+  services:
+    - docker:dind 
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -t registry.gitlab.com/accto-ci-cd-version2/subscription-management-system .
+    - docker push registry.gitlab.com/accto-ci-cd-version2/subscription-management-system
+    - echo "Deploying to $CI_ENVIRONMENT_URL"  
+  
+
+  needs:
+    - job: build
+  
+deploy:
+  image: google/cloud-sdk
+  stage: deploy
+
+  
+  script:
+    - echo $GCLOUD_SERVICE_KEY | base64 -d > gcloud-service-key.json
+    - gcloud auth activate-service-account --key-file gcloud-service-key.json
+    - gcloud container clusters get-credentials accto-redis-server --zone us-central1-c --project $GCP_PROJECT_ID
+    - kubectl apply -f deployment.yaml
+    - kubectl set image deployment/subscription-management-system-client subscription-management-system-client=registry.gitlab.com/accto-ci-cd-version2/subscription-management-system:latest
+   
+
+  environment:
+    name: production
+  
+  needs:
+    - job: dockerizing
+    

@@ -1,0 +1,6 @@
+<div *ngIf="filterOptions | async as field">
+    <div *ngIf="selectedOption | async as option">
+        <label class="mb-2">{{option.title}}</label>
+        <input class="form-control" [(ngModel)]="filters[option.key]" (change)="setData($event, option.key)" type="text" name="{{option.key}}"/>
+    </div>
+</div>

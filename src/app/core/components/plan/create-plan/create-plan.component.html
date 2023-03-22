@@ -1,0 +1,122 @@
+<div class="row">
+  <div class="col-md-12">
+    <!--        <ngx-spinner [fullScreen]="false" bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff">-->
+    <!--            <p style="font-size: 20px; color: white">Loading...</p>-->
+    <!--        </ngx-spinner>-->
+    <form [formGroup]="planForm">
+      <h6 class="mt-4">Create Plan</h6>
+      <hr>
+      <div class="mb-3">
+        <label>Plan Name</label>
+        <input type="text" class="form-control" formControlName="planName"/>
+      </div>
+
+      <div class="mb-3">
+        <label>Recurring Cycle</label>
+        <ng-select formControlName="recurringCycle" (change)="setDuration($event)">
+          <ng-option [value]="item" *ngFor="let item of recurringCycle ">{{item.recurringCycle}}</ng-option>
+        </ng-select>
+      </div>
+      <div class="mb-3">
+        <label>Plan Duration (Days)</label>
+        <input type="number" class="form-control" formControlName="duration"/>
+      </div>
+      <div class="mb-3">
+        <label>Plan Trial Period (Days)</label>
+        <input type="number" class="form-control" formControlName="trialPeriod"/>
+      </div>
+
+      <div class="mb-3">
+        <label>Plan Price</label>
+        <input type="number" class="form-control" formControlName="price"/>
+      </div>
+
+
+      <div formArrayName="productList">
+
+        <table class="table c-table mt-5">
+          <thead>
+          <tr>
+            <th>Products</th>
+            <!--            <th>Unit Price</th>-->
+            <th style="max-width: 35px; width: 35px" *ngIf="planItemList.controls.length > 1"></th>
+          </tr>
+          </thead>
+          <tbody>
+          <ng-container *ngFor="let item of planItemList.controls; let i = index" [formGroupName]="i">
+          <tr *ngIf="item.value.isActive">
+            <td data-label="Item">
+              <ng-select formControlName="productId" (change)="setProduct(i, $event)">
+                <ng-option [value]="item.id" *ngFor="let item of productList | async">{{item.itemName}}</ng-option>
+              </ng-select>
+            </td>
+
+            <!--            <td data-label="Unit Price">-->
+            <!--              <input type="number" class="form-control" formControlName="unitPrice" />-->
+            <!--            </td>-->
+
+            <td style="max-width: 35px; width: 35px" *ngIf="planItemList.controls.length > 1">
+              <div class="col-md-1 mb-2">
+                <button *ngIf="planItemList.length > 1" class="mt-3 mb-3 {{iconClass.removeIconClass}}" type="button"
+                        (click)="deleteItems(i)"><i class="{{iconClass.removeIcon}}"></i></button>
+              </div>
+            </td>
+          </tr>
+          </ng-container>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="col-md-12 mb-3 mt-1 ms-2">
+        <button type="button" class="{{iconClass.addIconClass}}" (click)="addItems()"><i
+          class="{{iconClass.addIcon}}"></i> New Item
+        </button>
+      </div>
+
+
+      <div formArrayName="planFeatureList">
+
+        <table class="table c-table mt-5">
+          <thead>
+          <tr>
+            <th>Features</th>
+            <th style="max-width: 35px; width: 35px" *ngIf="featureItemList.controls.length > 1"></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let item of featureItemList.controls; let i = index" [formGroupName]="i">
+            <td data-label="Item">
+              <textarea class="form-control" rows="2" formControlName="feature"></textarea>
+            </td>
+
+            <td style="max-width: 35px; width: 35px" *ngIf="featureItemList.controls.length > 1">
+              <div class="col-md-1 mb-2">
+                <button *ngIf="featureItemList.length > 1" class="mt-3 mb-3 {{iconClass.removeIconClass}}" type="button"
+                        (click)="deleteFeatures(i)"><i class="{{iconClass.removeIcon}}"></i></button>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+
+      <div class="col-md-12 mb-3 mt-1 ms-2">
+        <button type="button" class="{{iconClass.addIconClass}}" (click)="addFeature()"><i
+          class="{{iconClass.addIcon}}"></i> New Feature
+        </button>
+      </div>
+
+
+      <div class="mb-3">
+        <label>Description</label>
+        <textarea class="form-control" rows="4" formControlName="description"></textarea>
+      </div>
+
+      <div class="col-md-12 text-end">
+        <button class="btn btn-primary" (click)="savePlan('close')" *ngIf="!plan || !plan.id">Submit</button>
+        <button class="btn btn-primary" (click)="updatePlan()" *ngIf="plan && plan.id">Update</button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,78 @@
+<aside id="sidebar" class="sidebar">
+  <div class="d-flex align-items-center justify-content-between">
+    <a routerLink="/dashboard" class="logo d-flex align-items-center">
+      <img src="../../../../assets/img/logo.png" alt="">
+<!--      <span class="d-none d-lg-block">ACCTO.</span>-->
+    </a>
+    <i (click)="sidebarToggle()" class="bi bi-list toggle-sidebar-btn"></i>
+  </div>
+
+  <ul class="sidebar-nav mt-3" id="sidebar-nav">
+    <ng-container *ngFor="let menuItem of menuItems; let i = index">
+      <ng-container *ngIf="menuItem.submenu.length == 0">
+        <li class="nav-item"
+            [ngClass]="[menuItem.class]"
+            [routerLinkActive]="'active'"
+            [routerLinkActiveOptions]="{exact: true}"
+            *ngxPermissionsOnly="menuItem.allowPermissions"
+        >
+          <a class="nav-link"
+             [routerLink]="menuItem.path"
+          >
+            <i [class]="menuItem.icon"></i> <span>{{menuItem.title}}</span>
+          </a>
+        </li>
+      </ng-container>
+      <ng-container *ngIf="menuItem.submenu.length > 0">
+        <li class="nav-item"
+            [routerLinkActive]="'active'"
+        >
+          <a class="nav-link collapsed" [attr.data-bs-target]="'#nav-' + i" [attr.data-bs-toggle]="'collapse'" href="#">
+            <i [class]="menuItem.icon"></i><span>{{menuItem.title}}</span><i class="bi bi-chevron-down ms-auto"></i>
+          </a>
+          <ul id="nav-{{i}}" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+            <li class="nav-item"
+                [routerLinkActive]="'active'"
+                *ngFor="let subMenuItem of menuItem.submenu"
+                [routerLinkActiveOptions]="{exact: true}"
+            >
+              <a class="nav-link" [routerLink]="subMenuItem.path">
+                <i class="bi bi-circle"></i>
+                <span>{{subMenuItem.title}}</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ng-container>
+    </ng-container>
+
+    <!--    <li class="nav-item">-->
+    <!--      <a class="nav-link " routerLink="/dashboard"> <i class="bi bi-grid"></i> <span>Dashboard</span> </a>-->
+    <!--    </li>-->
+    <!--    <li class="nav-item">-->
+    <!--      <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">-->
+    <!--        <i class="bi bi-menu-button-wide"></i><span>Components</span><i class="bi bi-chevron-down ms-auto"></i>-->
+    <!--      </a>-->
+    <!--      <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">-->
+    <!--        <li><a routerLink="/alerts"> <i class="bi bi-circle"></i><span>Alerts</span> </a></li>-->
+    <!--        <li><a routerLink="/accordion"> <i class="bi bi-circle"></i><span>Accordion</span> </a></li>-->
+    <!--        <li><a routerLink="/badges"> <i class="bi bi-circle"></i><span>Badges</span> </a></li>-->
+    <!--        <li><a routerLink="/breadcrumbs"> <i class="bi bi-circle"></i><span>Breadcrumbs</span> </a></li>-->
+    <!--        <li><a routerLink="/buttons"> <i class="bi bi-circle"></i><span>Buttons</span> </a></li>-->
+    <!--        <li><a routerLink="/cards"> <i class="bi bi-circle"></i><span>Cards</span> </a></li>-->
+    <!--        <li><a routerLink="/carousel"> <i class="bi bi-circle"></i><span>Carousel</span> </a></li>-->
+    <!--        <li><a routerLink="/list-group"> <i class="bi bi-circle"></i><span>List group</span> </a></li>-->
+    <!--        <li><a routerLink="/modal"> <i class="bi bi-circle"></i><span>Modal</span> </a></li>-->
+    <!--        <li><a routerLink="/tabs"> <i class="bi bi-circle"></i><span>Tabs</span> </a></li>-->
+    <!--        <li><a routerLink="/pagination"> <i class="bi bi-circle"></i><span>Pagination</span> </a></li>-->
+    <!--        <li><a routerLink="/progress"> <i class="bi bi-circle"></i><span>Progress</span> </a></li>-->
+    <!--        <li><a routerLink="/spinners"> <i class="bi bi-circle"></i><span>Spinners</span> </a></li>-->
+    <!--        <li><a routerLink="/tooltips"> <i class="bi bi-circle"></i><span>Tooltips</span> </a></li>-->
+    <!--      </ul>-->
+    <!--    </li>-->
+
+    <!--    <li class="nav-heading">Admin</li>-->
+    <!--    <li class="nav-item"><a class="nav-link collapsed" routerLink="/user-profile"> <i class="bi bi-person"></i> <span>Profile</span> </a></li>-->
+
+  </ul>
+</aside>

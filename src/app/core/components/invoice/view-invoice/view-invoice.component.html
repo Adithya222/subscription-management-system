@@ -1,0 +1,71 @@
+<div class="card mb-0 px-3">
+  <!--  <div class="right-side-modal" id="right-side-modal"  ></div>-->
+
+
+  <div class="col-md-12 pt-3">
+    <h5 class="c-title float-start">Invoice Details</h5>
+  </div>
+
+
+  <div class="row">
+    <div class="col-md-12">
+
+      <div class="card">
+        <table class="table c-table">
+          <thead>
+          <tr>
+            <td>ID</td>
+            <td>{{invoice.id}}</td>
+          </tr>
+          <tr>
+            <td>Invoice No</td>
+            <td>{{invoice.invoiceNo}}</td>
+          </tr>
+          <tr>
+            <td>Recurring</td>
+            <td>{{invoice.recurring}}</td>
+          </tr>
+          <tr>
+            <td>Recurring Cycle</td>
+            <td>{{invoice.recurringCycle}}</td>
+          </tr>
+          <tr>
+            <td>Description</td>
+            <td>{{invoice?.description}}</td>
+          </tr>
+          <tr>
+            <td>Invoice Status</td>
+            <td>
+              <span class="badge bg-warning" *ngIf="invoice.status == 'TRIAL'" >TRIAL</span>
+              <span class="badge bg-black" *ngIf="invoice.status == 'TRIAL_END'" >TRIAL ENDED</span>
+              <span class="badge bg-primary" *ngIf="invoice.status == 'PENDING'" >PENDING</span>
+              <span class="badge bg-success" *ngIf="invoice.status == 'APPROVE'" >APPROVED</span>
+              <span class="badge bg-danger" *ngIf="invoice.status == 'REJECT'" >REJECTED</span>
+            </td>
+
+          </tr>
+
+          </thead>
+        </table>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="row align-items-end mb-3">
+    <div class="col-md-6">
+      <label>Invoice Approve Status</label>
+      <ng-select [(ngModel)]="newStatus">
+        <ng-option [value]="item" *ngFor="let item of invoiceApproveStatus">{{item}}</ng-option>
+      </ng-select>
+    </div>
+
+    <div class="col-md-6">
+      <button class="btn btn-primary" (click)="saveInvoice()">Update</button>
+    </div>
+
+
+  </div>
+
+
+</div>

@@ -1,0 +1,71 @@
+<script src="view-recurring-cycle.component.ts"></script>
+<div class="card mb-0 px-3">
+  <div class="right-side-modal" id="right-side-modal" *ngIf="isShowModal | async"></div>
+  <div class="form-div" [@flyInRight] *ngIf="isShowModal | async">
+    <div class="close-btn">
+      <button class="btn btn-outline-secondary btn-sm d-flex ms-auto" (click)="closeModal()"><i class="pi pi-times"></i>
+      </button>
+    </div>
+
+    <app-create-recurring-cycle [recurringId]="selectedRecurringId" (outputData)="setUpdatedData($event)" ></app-create-recurring-cycle>
+  </div>
+
+  <div class="col-md-12 pt-3">
+    <h5 class="c-title float-start">Recurring Cycle List</h5>
+    <button type="button" class="btn btn-primary float-end" (click)="showModal()">
+      Create
+    </button>
+    <app-filter-data (filteredData)="setFilteredData($event)"></app-filter-data>
+  </div>
+
+  <div class="col-md-12 tbodyDiv" infinite-scroll
+       [infiniteScrollDistance]="2"
+       [infiniteScrollThrottle]="50"
+       (scrolled)="onScroll()"
+       [scrollWindow]="false"
+  >
+    <table class="table c-table">
+      <thead class="sticky-top_">
+      <tr>
+        <td style="width: 60px">ID</td>
+        <td>Name</td>
+        <td>Description</td>
+        <td>Status</td>
+        <td style="max-width: 35px; width: 35px"></td>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let recurring of recurringList; let i = index">
+        <td data-label="ID">{{recurring.id}}</td>
+        <td data-label="Name">{{recurring.recurringCycle}}</td>
+        <td data-label="Description">{{recurring.noDays}}</td>
+        <td data-label="Status">
+          <span class="badge bg-success" *ngIf="recurring.isActive == true" >Activated</span>
+          <span class="badge bg-danger" *ngIf="recurring.isActive == false" >Deactivated</span>
+        </td>
+        <td>
+          <div ngbDropdown class="d-inline-block action-dropdown">
+            <a id="dropdownBasic_{{i}}" ngbDropdownToggle><i class="bi bi-three-dots-vertical"></i></a>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic" class="action-list">
+              <button class="btn" (click)="editRecurring(recurring.id)">Edit</button>
+
+              <span *ngIf="recurring.isActive == true">
+              <button class="btn" (click)="deleteRecurring(recurring)">Disable</button>
+              </span>
+              <span *ngIf="recurring.isActive == false">
+              <button class="btn" (click)="deleteRecurring(recurring)">Enable</button>
+              </span>
+            </div>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"
+                   rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+  <p-toast></p-toast>
+
+
+</div>

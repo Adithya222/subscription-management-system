@@ -1,0 +1,186 @@
+<div class="container" *ngIf="showPlans">
+  <div class="card mt-2 p-3 px-5">
+    <div class="card-header center">
+      <h3>WELCOME TO ACCTO</h3>
+    </div>
+
+    <div class="card-body ">
+      <h5>
+        “Creative and people-oriented computer scientist with up to 2 years of working with tech startups. Advanced
+        knowledge of software design principles and agile development principles. Led and managed a team of five in
+        developing new software from concept to delivery.”What Is a Sample? A sample refers to a smaller, manageable
+        version of a larger group. It is a subset containing the characteristics of a larger population. Samples are
+        used in statistical testing when population sizes are too large for the test to include all possible members or
+        observations.
+      </h5>
+    </div>
+  </div>
+
+</div>
+
+
+<div class="container" *ngIf="showPlans">
+  <div class="row">
+    <div *ngFor="let items of planList" class="col-md-6 col-sm-6 col-lg-4 mt-2">
+      <div class="card-plans">
+        <img
+          src="https://lh3.googleusercontent.com/ytP9VP86DItizVX2YNA-xTYzV09IS7rh4WexVp7eilIcfHmm74B7odbcwD5DTXmL0PF42i2wnRKSFPBHlmSjCblWHDCD2oD1oaM1CGFcSd48VBKJfsCi4bS170PKxGwji8CPmehwPw=w200-h247-no"
+          alt="Person" class="card__image">
+        <p class="card__name">{{items.planName}}</p>
+
+        <p class="text-center" style="color: #ffffff !important;">{{items.description}}</p>
+        <button class="btn draw-border " style="margin-top: auto;" (click)="subscribePlan(items.id)">Subscribe Plan
+        </button>
+
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<div class="container" *ngIf="!showPlans">
+  <div class="card mt-2 p-3 px-5">
+    <div class="card-header center">
+      <h3>REGISTER TO ACCTO</h3>
+    </div>
+
+    <div class="card-body ">
+      <h5>
+        “Creative and people-oriented computer scientist with up to 2 years of working with tech startups. Advanced
+        knowledge of software design principles and agile development principles. Led and managed a team of five in
+        developing new software from concept to delivery.”What Is a Sample? A sample refers to a smaller, manageable
+        version of a larger group. It is a subset containing the characteristics of a larger population. Samples are
+        used in statistical testing when population sizes are too large for the test to include all possible members or
+        observations.
+      </h5>
+    </div>
+  </div>
+
+</div>
+<div class="container" *ngIf="!showPlans">
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12">
+          <form [formGroup]="customerForm">
+
+            <button class="btn btn-primary ms-1" (click)="saveCustomer('close')" *ngIf="!customer || !customer.id"></button>
+
+            <h6 class="mt-4"><i class="bi bi-person"></i> Basic Details</h6>
+
+            <div class="row">
+              <div class="col-md">
+                <label>First Name</label>
+                <input type="text" class="form-control" formControlName="firstName"/>
+              </div>
+              <div class="col-md">
+                <label>Last Name</label>
+                <input type="text" class="form-control" formControlName="lastName"/>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <label>Email</label>
+                <input type="email" class="form-control" formControlName="email">
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <label>Password</label>
+                <input type="password" class="form-control" formControlName="password">
+
+              </div>
+            </div>
+
+
+            <h6 class="mt-4"><i class="bi bi-phone"></i> Contact Details</h6>
+
+            <div class="row">
+              <div class="col-md">
+                <label>Mobile</label>
+                <input type="text" class="form-control" formControlName="mobile"/>
+              </div>
+              <div class="col-md">
+                <label>Land Phone</label>
+                <input type="text" class="form-control" formControlName="landNumber"/>
+              </div>
+
+            </div>
+
+
+            <h6 class="mt-4"><i class="bi bi-pin-map"></i> Addresses</h6>
+
+            <div class="row">
+              <div class="col-md mb-2">
+                <label>Address Line 1</label>
+                <input type="text" class="form-control" formControlName="addressLine1"/>
+              </div>
+              <div class="col-md mb-2">
+                <label>Address Line 2</label>
+                <input type="text" class="form-control" formControlName="addressLine2"/>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md mb-2">
+                <label>City</label>
+                <input type="text" class="form-control" formControlName="city"/>
+              </div>
+              <div class="col-md mb-2">
+                <label>State</label>
+                <input type="text" class="form-control" formControlName="state"/>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md mb-2">
+                <label>Post Code</label>
+                <input type="text" class="form-control" formControlName="postcode"/>
+              </div>
+              <div class="col-md mb-2">
+                <label>Country</label>
+                <ng-select formControlName="country">
+                  <ng-option [value]="item.name" *ngFor="let item of countries">{{item.name}}</ng-option>
+                </ng-select>
+              </div>
+            </div>
+
+            <h6 class="mt-4"><i class="bi bi-phone"></i> Other Details</h6>
+
+
+            <div class="mb-3">
+              <label>Website</label>
+              <input type="email" class="form-control" formControlName="website">
+            </div>
+
+            <div class="col-md-12">
+              <label>Notes</label>
+              <textarea rows="4" class="form-control" formControlName="notes"></textarea>
+            </div>
+
+
+            <div class="col-md-12 text-end">
+              <!--                <button class="btn btn-primary ms-1" (click)="saveCustomer('open')" *ngIf="!customer || !customer.id" [disabled]="showFormLoading | async">Submit & Add New</button>-->
+              <button class="btn btn-warning ms-1" (click)="login()" >Login</button>
+              <button class="btn btn-warning ms-1" (click)="clear()" [disabled]="showFormLoading | async">Clear</button>
+              <button class="btn btn-primary ms-1" (click)="saveCustomer('close')" *ngIf="!customer || !customer.id"
+                      [disabled]="showFormLoading | async">Save
+              </button>
+              <!--              <button class="btn btn-primary ms-1" (click)="login()">Login</button>-->
+              <!--                      <button class="btn btn-primary ms-1" (click)="updateCustomer()" *ngIf="customer && customer.id" [disabled]="showFormLoading | async">Update</button>-->
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

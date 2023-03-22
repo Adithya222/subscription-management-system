@@ -1,0 +1,10 @@
+<app-header *ngIf="!(fullPageLinksArray.includes(_router.url))"></app-header>
+<app-sidebar *ngIf="!(fullPageLinksArray.includes(_router.url))"></app-sidebar>
+<main id="main" class="main">
+  <div class="spinner" *ngIf="showLoading | async">
+    <app-loading-spinner></app-loading-spinner>
+  </div>
+  <router-outlet (activate)="changeOfRoutes()"></router-outlet>
+</main>
+<!--<app-footer *ngIf="!(fullPageLinksArray.includes(_router.url))"></app-footer>-->
+
